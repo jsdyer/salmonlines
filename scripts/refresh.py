@@ -5,7 +5,7 @@ import gzip
 import hashlib
 import json
 import math
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 import re
 import tempfile
@@ -83,7 +83,11 @@ def pack(path, obj):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--csv", type=Path, help="Use a local copy of the current DFO resource")
+    parser.add_argument("--retrieved-on", type=date.fromisoformat,
+                        help="Original retrieval date for a saved --csv (YYYY-MM-DD), if known")
     args = parser.parse_args()
+    if args.retrieved_on and not args.csv:
+        parser.error("--retrieved-on applies only with --csv")
     url, release = current_resource()
     target = ROOT / "snapshot"
     target.mkdir(exist_ok=True)
@@ -97,8 +101,17 @@ def main():
         digest = hashlib.sha256(file.read_bytes()).hexdigest()
         manifest = target / "source.json"
         old = json.loads(manifest.read_text()) if manifest.exists() else {}
+        retrieved = args.retrieved_on
+        if not args.csv:
+            retrieved = datetime.now(timezone.utc).date()
+        retrieved = retrieved.isoformat() if retrieved else None
         if digest == old.get("sha256") and release == old.get("edition"):
-            print("Source unchanged")
+            if retrieved and (not old.get("retrieved") or retrieved > old["retrieved"]):
+                old["retrieved"] = retrieved
+                staged = work / "source.json"
+                staged.write_text(json.dumps(old, ensure_ascii=False, indent=2) + "\n")
+                staged.replace(manifest)
+            print("Source content unchanged")
             return
         with file.open(encoding="cp1252", newline="") as stream:
             rows = csv.DictReader(stream)
@@ -107,7 +120,7 @@ def main():
             index, series, ref = transform(rows)
         if ref["rows"] < max(300000, old.get("rows", 0) * 0.95) or ref["series"] < 8000:
             raise ValueError("Unexpected loss of historical records or populations")
-        ref.update(edition=release, retrieved=datetime.now(timezone.utc).date().isoformat(),
+        ref.update(edition=release, retrieved=retrieved,
                    url=url, sha256=digest, measures=MEASURES)
         pack(work / "index.json.gz", index)
         buckets = [{} for _ in range(SHARDS)]

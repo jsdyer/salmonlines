@@ -175,7 +175,7 @@ async function start() {
     const a=elem('a');a.href=url;a.download='salmon-lines-'+selected.id+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   };
   $('raw').href=source.url;$('raw').hidden=false;
-  $('provenance').textContent=number.format(source.rows)+' annual records across '+number.format(source.populations)+' DFO populations in the all-areas Pacific release, including BC, Yukon and transboundary waters. Analysis years '+source.years.join('–')+'. DFO edition '+source.edition+' · Snapshot retrieved '+source.retrieved+' · Site built '+source.build_date+'.';
+  $('provenance').textContent=number.format(source.rows)+' annual records across '+number.format(source.populations)+' DFO populations in the all-areas Pacific release, including BC, Yukon and transboundary waters. Analysis years '+source.years.join('–')+'. DFO edition '+source.edition+' · '+(source.retrieved ? 'Snapshot retrieved '+source.retrieved : 'Retrieval date unrecorded')+' · Site built '+source.build_date+'.';
   if(['25','10'].includes(view.get('period'))) $('period').value=view.get('period');
   choose(view.get('series')||presets.adams.id,view.get('compare'),view.get('measure')||'adult');
 }
