@@ -27,7 +27,7 @@ jobs:
       revision: ${{ steps.save.outputs.revision }}
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - run: python3 scripts/refresh.py
@@ -55,7 +55,7 @@ jobs:
         with:
           ref: ${{ needs.refresh.outputs.revision || github.sha }}
           persist-credentials: false
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - uses: actions/setup-node@v6
