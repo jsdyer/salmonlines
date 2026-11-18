@@ -24,3 +24,5 @@ python3 -m http.server 8000 --directory dist
 The offline build expands the checked-in compressed snapshot. The browser downloads its index and the relevant history shards on demand. CI also runs the desktop/mobile Chromium tests in `tests/browser_smoke.py`.
 
 `python3 scripts/refresh.py` locates the latest dated all-areas simplified CSV in the government catalogue, checks its digest and validates its schema, identities and historical coverage before replacing the snapshot. A monthly workflow checks for new or corrected source editions. Use **Actions → Browser tool · Check and publish → Run workflow**, on main with the refresh checkbox, for an extra check. Validated refreshes are recorded in Git; the checked and browser-tested build deploys to GitHub Pages. Set repository Pages source to **GitHub Actions**.
+
+For a saved source supplied with `--csv`, use `--retrieved-on YYYY-MM-DD` when the original acquisition date is known. An unchanged local copy preserves the recorded date. A changed local copy with unknown provenance displays “Retrieval date unrecorded.”

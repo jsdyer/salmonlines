@@ -50,7 +50,7 @@ def build(root=ROOT):
         data.mkdir()
         source = json.loads((snapshot / "source.json").read_text())
         (data / "source.json").write_text(json.dumps(dict(source, build_date=datetime.now(timezone.utc).date().isoformat())))
-        label = "Data retrieved · " + escape(source["retrieved"])
+        label = "Data retrieved · " + escape(source["retrieved"]) if source.get("retrieved") else "Retrieval date unrecorded"
         (stage / "data-date.svg").write_text(
             f'<svg xmlns="http://www.w3.org/2000/svg" width="181" height="23" role="img" aria-label="{label}">'
             f'<title>{label}</title><rect width="181" height="23" rx="5" fill="#e8ede2"/>'
