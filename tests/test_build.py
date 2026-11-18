@@ -14,6 +14,7 @@ class BuildTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         shutil.copytree(ROOT / "web", self.root / "web")
+        shutil.copytree(ROOT / "snapshot", self.root / "snapshot")
         shutil.copyfile(ROOT / "tool.json", self.root / "tool.json")
 
     def edit(self, **changes):

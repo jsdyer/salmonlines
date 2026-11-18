@@ -1,34 +1,18 @@
-# CoolCode browser tool template
+# Salmon Lines
 
-A starting point for independent tools at `coolcode.ca/<repo>/`: a working local-text
-example, responsive UI, Python standard-library build, Node tests, PR checks and Pages
-publication. No npm install is needed.
+[Open Salmon Lines](https://coolcode.ca/salmonlines/) · [CoolCode](https://coolcode.ca/)
 
-## One-time template setup
+Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by waterbody, species, subdistrict, population and run. Compare two same-species populations on a common time axis, read annual estimates, adult presence and enumeration methods, export the displayed years, or share a view. Nearby comparisons prioritize the same DFO subdistrict. Yorkson Creek links to its mapped channel in Hidden Water.
 
-Enable **Settings → General → Template repository** here. This repository does not
-need Pages enabled: its workflow builds/tests but intentionally skips deployment.
-New copies also skip deployment until `scripts/init.py` sets the tool ID to match
-their repository name. This lets you create the repo before configuring Pages.
+## Source and coverage
 
-## Start a new tool
+The [NuSEDS catalogue](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6) publishes a simplified all-areas CSV and an English data dictionary. The June 1, 2026 edition contains 421,001 annual records spanning 1920–2025, including BC, Yukon and transboundary waters. The full index includes 9,886 populations and 9,964 distinct population/waterbody series. See the live source panel and [snapshot metadata](snapshot/source.json) for the edition, exact resource, retrieval date, and source SHA-256. The site build date is displayed independently. Contains information licensed under the [Open Government Licence – Canada](https://open.canada.ca/en/open-government-licence-canada).
 
-1. Select **Use this template → Create a new repository**, choose owner `jsdyer`,
-   a unique lowercase name such as `my-tool`, and public visibility.
-2. Clone the new repository. Use Python 3.12+ and Node 24+.
-3. Set the identity, using a slug that matches the repository name:
+Each series retains its DFO population and geographic feature IDs. Different sites, runs and measures stay separate. Adult natural spawners, total natural spawners, total returns to river and unspecified historical returns are selectable. No field is substituted for another. Survey effort and reporting methods vary. Annual analysis years refer to the season assigned by DFO. Blank source values, missing years and reported numeric zeros are distinct in the table and export. Inspections reporting no adults do not imply a numerical estimate of zero.
 
-```sh
-python3 scripts/init.py my-tool --title "My Tool" --description "Describe what this tool does."
-```
+## Build and refresh
 
-Review the category, tags and icon in `tool.json`. `access: "browser"` tells the main
-catalogue that the tool works immediately without installation. `--owner` supports a different
-GitHub owner, but only projects owned by `jsdyer` inherit the CoolCode domain.
-
-4. Replace the example in `web/` and its tests. Update the privacy explanation,
-   source attribution and README to describe the real tool.
-5. Test and preview:
+Python and Node are required for development. Visitors need only a browser. Searches, charting, comparisons and CSV exports run locally using same-origin static files. A shared URL includes the selected populations, measure and time period.
 
 ```sh
 node --test tests/*.test.mjs
@@ -37,66 +21,6 @@ python3 scripts/build.py
 python3 -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000/`. The example trims lines, skips blanks and removes exact
-duplicates, preserving first-seen order and capitalization. It makes no API requests
-and does not persist text. Update that explanation if your app behaves differently.
+The offline build expands the checked-in compressed snapshot. The browser downloads its index and the relevant history shards on demand. CI also runs the desktop/mobile Chromium tests in `tests/browser_smoke.py`.
 
-CI also tests the browser flow and mobile layout at a project subpath. Replace the
-sample assertions in `tests/browser_smoke.py` when implementing your own UI. To run
-that check locally (optional for ordinary preview):
-
-```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install -r tests/browser-requirements.txt
-python3 -m playwright install --with-deps chromium
-python3 tests/browser_smoke.py
-```
-
-Playwright is a test-only dependency; the app and its static build do not use it.
-
-## Publish and register
-
-When the actual tool is ready, in the **new tool repository** set **Settings → Pages → Build and deployment →
-Source → GitHub Actions**. Push to `main`, or manually run **Browser tool · Check and
-publish** after enabling Pages. If the initial deployment ran before Pages was enabled,
-enable it and rerun. PRs only check/build and provide a downloadable preview artifact.
-
-Keep asset paths and module imports relative. Check `https://coolcode.ca/my-tool/`.
-Do not add a CNAME or set `coolcode.ca` as this project's custom domain; the account
-site supplies it. Only successful `main` builds deploy.
-
-After verifying the app, copy the reviewed object from `tool.json` into `data/tools.json`
-in [the main site](https://github.com/jsdyer/jsdyer.github.io). Each tool still builds
-independently. Update the hub record when listing metadata changes; the hub is the
-authority for discovery. Ordinary app updates touch only this repository.
-
-The main site separates **Use in your browser** from **Install yourself**. An app
-that asks for a file is still a browser tool. Standalone Linux packages should start
-in their own repositories with their own build/release workflow, rather than copying
-this browser-only scaffold. Their hub record uses `access: "install"`, links to an
-installation guide, and includes `requirements`.
-
-## Files
-
-| Path | Purpose |
-| --- | --- |
-| `tool.json` | Page metadata and a ready-to-copy catalogue record |
-| `web/` | HTML, responsive CSS, DOM interactions and separate model logic |
-| `scripts/build.py` | Escape metadata and build `web/` into `dist/` |
-| `scripts/init.py` | Set a new project's identity |
-| `tests/` | Application and builder tests |
-| `.github/workflows/pages.yml` | Check PRs and publish successful main builds |
-| `AGENTS.md` | Instructions for future coding work |
-
-Namespace optional storage as `coolcode:<tool-id>:<key>`; CoolCode paths share a
-browser origin. Don't save pasted text/uploads by default. Document external APIs
-and send only the information needed for the selected action. Never embed secrets.
-
-Scheduled refresh is opt-in. Validate source data before deploying, display its date,
-and preserve the last good deployment on failure. Public-repository schedules can
-stop after 60 days without repository activity.
-
-Templates don't propagate future edits automatically. Adopt fixes explicitly and
-consider a versioned reusable workflow once several tools confirm the shared process.
-Choose and add the intended software license before distributing a new project.
+`python3 scripts/refresh.py` locates the latest dated all-areas simplified CSV in the government catalogue, checks its digest and validates its schema, identities and historical coverage before replacing the snapshot. A monthly workflow checks for new or corrected source editions. Use **Actions → Browser tool · Check and publish → Run workflow**, on main with the refresh checkbox, for an extra check. Validated refreshes are recorded in Git; the checked and browser-tested build deploys to GitHub Pages. Set repository Pages source to **GitHub Actions**.

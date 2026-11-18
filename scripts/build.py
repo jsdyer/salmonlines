@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Build a browser tool using Python's standard library; no network required."""
+from datetime import datetime, timezone
+import gzip
 from html import escape
 import json
 from pathlib import Path
@@ -43,6 +45,21 @@ def build(root=ROOT):
     with tempfile.TemporaryDirectory(prefix="coolcode-tool-") as temporary:
         stage = Path(temporary) / "site"
         shutil.copytree(web, stage)
+        snapshot = root / "snapshot"
+        data = stage / "data"
+        data.mkdir()
+        source = json.loads((snapshot / "source.json").read_text())
+        (data / "source.json").write_text(json.dumps(dict(source, build_date=datetime.now(timezone.utc).date().isoformat())))
+        label = "Data retrieved · " + escape(source["retrieved"])
+        (stage / "data-date.svg").write_text(
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="181" height="23" role="img" aria-label="{label}">'
+            f'<title>{label}</title><rect width="181" height="23" rx="5" fill="#e8ede2"/>'
+            f'<text x="8" y="16" font-family="system-ui,sans-serif" font-size="12" fill="#184940">{label}</text></svg>'
+        )
+        files = ["index.json", *(f"observations-{i}.json" for i in range(source["shards"]))]
+        for name in files:
+            with gzip.open(snapshot / (name + ".gz"), "rb") as packed, (data / name).open("wb") as unpacked:
+                shutil.copyfileobj(packed, unpacked)
         index = stage / "index.html"
         page = index.read_text(encoding="utf-8")
         for token, key in {"TITLE": "title", "DESCRIPTION": "description", "TOOL_ID": "id", "SOURCE_URL": "source"}.items():

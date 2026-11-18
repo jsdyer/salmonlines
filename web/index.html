@@ -1,33 +1,30 @@
 <!doctype html>
 <html lang="en-CA">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="{{DESCRIPTION}}">
-  <title>{{TITLE}} · CoolCode</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-</head>
-<body data-tool-id="{{TOOL_ID}}">
-  <a class="skip" href="#main">Skip to content</a>
-  <header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="{{SOURCE_URL}}">Source &amp; instructions ↗</a></header>
-  <main id="main">
-    <p class="eyebrow">Browser tool starter</p>
-    <h1>{{TITLE}}</h1>
-    <p class="intro">{{DESCRIPTION}}</p>
-    <section aria-labelledby="example-title">
-      <h2 id="example-title">Clean a list</h2>
-      <p>Trim spaces, skip blank lines and remove exact duplicates. Capitalization stays distinct.</p>
-      <div class="panels">
-        <div><label for="input">Your lines</label><textarea id="input" rows="10" maxlength="100000" spellcheck="false" placeholder="Paste one item per line"></textarea></div>
-        <div><label for="output">Cleaned lines</label><textarea id="output" rows="10" readonly spellcheck="false"></textarea></div>
-      </div>
-      <div class="actions"><button id="sample" type="button">Load example</button><button id="clear" type="button">Clear</button><button id="copy" type="button" hidden>Copy result</button></div>
-      <p id="status" role="status" aria-live="polite">Paste a list to begin.</p>
-      <noscript><p>This tool needs JavaScript to process your text. The source is available above.</p></noscript>
-    </section>
-    <aside aria-label="Privacy"><strong>Stays on your device.</strong> This example makes no API requests and does not save your text. Reloading clears it.</aside>
-  </main>
-  <footer>Part of <a href="https://coolcode.ca/">the CoolCode collection</a>.</footer>
-</body>
-</html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}} · CoolCode</title><meta name="description" content="{{DESCRIPTION}}">
+<meta name="theme-color" content="#183f3d"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script></head>
+<body data-tool-id="{{TOOL_ID}}"><a class="skip" href="#main">Skip to explorer</a>
+<header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="#sources">Data &amp; methods ↓</a></header>
+<div class="mast"><div><p class="kicker">DFO Pacific Region · NuSEDS</p><h1>{{TITLE}}</h1>
+<p>Follow salmon returns through a century of river records. Compare individual populations, one spawning season at a time.</p></div>
+<div class="emblem" aria-hidden="true">≋</div></div>
+<main id="main"><div class="presets"><strong>Explore a river</strong><button data-preset="adams">Adams River sockeye</button><button data-preset="yorkson">Yorkson Creek coho</button><button data-preset="nathan">Nathan Creek coho</button></div>
+<div class="desk">
+<aside class="finder"><h2>Find a population</h2>
+<label for="search">Waterbody or population</label><input id="search" type="search" placeholder="Try Nicomekl or a population ID">
+<label for="species">Species</label><select id="species"><option value="">All species</option></select>
+<label for="area">DFO subdistrict</label><select id="area"><option value="">All subdistricts</option></select>
+<p id="matches" role="status"></p><div id="results" aria-label="Matching populations"></div></aside>
+<section class="view"><p id="status" role="status">Loading the DFO population index…</p>
+<div id="history" hidden><p class="kicker" id="location"></p><h2 id="title"></h2><p class="meta" id="identity"></p>
+<div class="controls"><label>Measure<select id="metric"></select></label><label>Year range<select id="period"><option value="all">Entire record</option><option value="25">Latest 25 source years</option><option value="10">Latest 10 source years</option></select></label></div>
+<p id="definition" class="measure-note"></p>
+<details id="compare-panel"><summary>Compare another population</summary><label for="compare-search">Search populations of the same species</label><input id="compare-search" type="search" placeholder="Type a river name or ID"><label for="compare">Comparison population</label><select id="compare"></select><p class="meta" id="compare-count"></p></details>
+<div id="legend"></div><div id="plot" aria-label="Annual estimate chart"></div><p id="coverage"></p>
+<div class="action"><button id="share">Copy view link</button><button id="export">Export displayed years (CSV)</button><a id="water" hidden href="https://coolcode.ca/hiddenwater/#record=channels%3A9c7edd00-c189-44a7-a478-6b6c93f79ddf">Yorkson Creek in Hidden Water ↗</a></div><output id="action-status"></output>
+<details id="records"><summary>Year-by-year source records</summary><div class="table-wrap"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div></details>
+</div></section></div>
+<section id="sources"><h2>Reading the returns</h2><div class="notes"><div><h3>What the numbers describe</h3><p>DFO groups estimates by population, run and waterbody. One population may have records for several sites. Each line represents one population ID and one waterbody ID. Values from overlapping sites or measures must not be added together.</p><p>Blank estimates and years without records leave gaps. A published zero appears at zero. “None observed” describes an inspection and can coexist with a blank numerical estimate. Enumeration methods and survey effort vary over time.</p></div>
+<div><h3>Source and dates</h3><p id="provenance">Loading source details…</p><p><a href="https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6">DFO NuSEDS catalogue ↗</a> · <a id="raw" hidden>Source CSV ↗</a> · <a href="https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6/resource/1d343cd3-5614-3bda-814b-48a08084b051">Data dictionary ↗</a></p><p>Contains information licensed under the <a href="https://open.canada.ca/en/open-government-licence-canada">Open Government Licence – Canada</a>. Selections and searches run in your browser. A shared link carries the chosen series and measure.</p></div></div></section>
+<noscript>JavaScript is needed to select populations and draw their records. Use the DFO catalogue above to download the CSV.</noscript></main><footer><a href="https://coolcode.ca/">CoolCode.ca</a><a href="{{SOURCE_URL}}">Source code &amp; refresh workflow ↗</a></footer></body></html>
