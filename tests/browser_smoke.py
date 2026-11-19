@@ -35,7 +35,7 @@ def main():
                 assert page.locator("#plot circle").count() > 0
                 page.locator('[data-preset="chilliwack"]').click()
                 page.locator("#crossing-note").wait_for(state="visible")
-                assert "before the 2016 repair" in page.locator("#crossing-years").inner_text()
+                assert "latest published year" in page.locator("#crossing-years").inner_text()
                 assert "#crossing-1474" in page.locator("#crossing-note a").get_attribute("href")
                 assert "series=46982-62" in page.url
                 page.locator('[data-preset="yorkson"]').click()
