@@ -117,6 +117,16 @@ function display() {
   $('identity').textContent='Population '+selected.id.split('-')[0]+' · Waterbody '+selected.id.split('-')[1]+' · DFO subdistrict '+(selected.area||'unknown')+(selected.run?' · Run '+selected.run:'');
   $('definition').textContent=metrics[pos-1].note;
   $('legend').replaceChildren(...active.map(({item},i)=>{const n=elem('span',item.name);n.className='key'+(i?' second':'');return n;}));
+  $('river-reading').replaceChildren(...active.map(({item,records}) => {
+    const values = years.filter(year => Number.isFinite(records.get(year)?.[pos]));
+    const measure = metrics[pos-1].name.toLowerCase();
+    if (!values.length) return elem('p', item.name + ' has no numerical estimate for ' + measure + ' in the selected years. Open the source records below to check inspections and adult presence.');
+    const last = values.at(-1);
+    const previous = values.at(-2);
+    let reading = item.name + ' · ' + metrics[pos-1].name + '. DFO’s latest estimate in this view is ' + number.format(records.get(last)[pos]) + ' fish in ' + last + '.';
+    if (previous !== undefined) reading += ' Its preceding published estimate was ' + number.format(records.get(previous)[pos]) + ' in ' + previous + '.';
+    return elem('p', reading);
+  }));
   renderChart();
   $('coverage').textContent=active.map(({item,records})=>number.format(years.filter(year=>records.get(year)?.[pos]!=null).length)+' of '+years.length+' years have numerical estimates for '+item.name).join('. ')+'.';
   $('table-head').replaceChildren();

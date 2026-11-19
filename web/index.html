@@ -7,7 +7,7 @@
 <body data-tool-id="{{TOOL_ID}}"><a class="skip" href="#main">Skip to explorer</a>
 <header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="#sources">Data &amp; methods ↓</a></header>
 <div class="mast"><div><p class="kicker">DFO Pacific Region · NuSEDS</p><h1>{{TITLE}}</h1>
-<p>Follow salmon returns through a century of river records. Compare individual populations, one spawning season at a time.</p></div>
+<p>How many salmon came back to spawn? Explore DFO’s estimates for a particular river, population and spawning season.</p></div>
 <div class="emblem" aria-hidden="true">≋</div></div>
 <main id="main"><div class="presets"><strong>Explore a river</strong><button data-preset="adams">Adams River sockeye</button><button data-preset="yorkson">Yorkson Creek coho</button><button data-preset="nathan">Nathan Creek coho</button><button data-preset="chilliwack">Chilliwack River coho</button></div>
 <div class="desk">
@@ -21,6 +21,7 @@
 <div class="controls"><label>Measure<select id="metric"></select></label><label>Year range<select id="period"><option value="all">Entire record</option><option value="25">Latest 25 source years</option><option value="10">Latest 10 source years</option></select></label></div>
 <p id="definition" class="measure-note"></p>
 <details id="compare-panel"><summary>Compare another population</summary><label for="compare-search">Search populations of the same species</label><input id="compare-search" type="search" placeholder="Type a river name or ID"><label for="compare">Comparison population</label><select id="compare"></select><p class="meta" id="compare-count"></p></details>
+<section aria-labelledby="read-heading" class="measure-note"><h3 id="read-heading">What this river record shows</h3><div id="river-reading"></div><p>Each point is an estimate in fish for one spawning season. Gaps mark years without a number for this measure. Survey coverage and methods can change, so an increase or decrease by itself cannot tell you why returns changed or establish the river’s health.</p></section>
 <div id="legend"></div><div id="plot" aria-label="Annual estimate chart"></div><p id="coverage"></p>
 <div class="action"><button id="share">Copy view link</button><button id="export">Export displayed years (CSV)</button><a id="water" hidden href="https://coolcode.ca/hiddenwater/#record=channels%3A9c7edd00-c189-44a7-a478-6b6c93f79ddf">Yorkson Creek in Hidden Water ↗</a></div><output id="action-status"></output>
 <aside id="crossing-note" class="measure-note" hidden><h3>A crossing in this watershed</h3><p>The province recorded a fish-passage repair at Chilliwack Bench Forest Service Road in 2016. The project report identifies cutthroat trout and possible coho use. These DFO estimates cover the Chilliwack River population. <span id="crossing-years"></span></p><a href="https://coolcode.ca/hiddenwater/#crossing-1474">Follow the assessment and repair in Hidden Water ↗</a></aside>

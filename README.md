@@ -5,8 +5,10 @@
 Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by waterbody, species, subdistrict, population and run. Compare two same-species populations on a common time axis, read annual estimates, adult presence and enumeration methods, export the displayed years, or share a view. Nearby comparisons prioritize the same DFO subdistrict. Yorkson Creek links to its mapped channel in Hidden Water.
 
 <!-- coolcode:guide -->
-Select Chilliwack River coho to see which survey years precede the Bench Road repair, then open the provincial crossing records.
+Read the latest and preceding estimates for one river, population and measure. For Chilliwack River coho, compare the survey years with the Bench Road repair timeline.
 <!-- /coolcode:guide -->
+
+The river reading updates with the selected populations, measure and years. For example, the June 2026 source edition puts the Adams River sockeye natural adult estimate at 354 in 2024 and 4,851 in 2023. Its total natural spawner estimate for 2024 is 1,373, which also includes jacks. A difference between seasons describes estimated abundance under one measure; assessing causes or population health requires more evidence.
 
 ## Chilliwack River and the Bench Road crossing
 

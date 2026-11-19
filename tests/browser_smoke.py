@@ -32,6 +32,8 @@ def main():
                 page.goto(f"http://127.0.0.1:{server.server_port}/salmonlines/")
                 page.locator("#history").wait_for(state="visible")
                 assert "Adams River" in page.locator("#title").inner_text()
+                assert "natural adult spawners" in page.locator("#river-reading").inner_text().lower()
+                assert "fish in" in page.locator("#river-reading").inner_text()
                 assert page.locator("#plot circle").count() > 0
                 page.locator('[data-preset="chilliwack"]').click()
                 page.locator("#crossing-note").wait_for(state="visible")
