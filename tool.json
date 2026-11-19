@@ -1,7 +1,7 @@
 {
   "id": "salmonlines",
   "title": "Salmon Lines",
-  "description": "Compare historical salmon spawning estimates by river, species and run in DFO’s Pacific region.",
+  "description": "Compare historical Pacific salmon spawning estimates and explore the Chilliwack River records behind a fish-passage case study.",
   "category": "explorers",
   "tags": [
     "British Columbia",
@@ -17,5 +17,49 @@
   "url": "/salmonlines/",
   "source": "https://github.com/jsdyer/salmonlines",
   "hosting": "project",
-  "access": "browser"
+  "access": "browser",
+  "data_info": {
+    "mode": "snapshot",
+    "detail": "DFO’s NuSEDS records spawning estimates by population, waterbody and year, with separate fields for adult spawners and total returns.",
+    "probes": [
+      {
+        "url": "https://coolcode.ca/salmonlines/data/source.json",
+        "path": [
+          "retrieved"
+        ],
+        "label": "Data retrieved",
+        "count_at": {
+          "path": [
+            "rows"
+          ],
+          "unit": "annual records"
+        },
+        "value": "2026-11-18",
+        "allow_unknown": true,
+        "count": 421001
+      },
+      {
+        "url": "https://coolcode.ca/salmonlines/data/source.json",
+        "path": [
+          "edition"
+        ],
+        "label": "Source published",
+        "value": "2026-06-01"
+      },
+      {
+        "url": "https://coolcode.ca/salmonlines/data/source.json",
+        "path": [
+          "years",
+          0
+        ],
+        "label": "Analysis years",
+        "end_path": [
+          "years",
+          1
+        ],
+        "value": "1920–2025"
+      }
+    ],
+    "cadence": "Monthly"
+  }
 }

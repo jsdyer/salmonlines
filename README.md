@@ -4,6 +4,14 @@
 
 Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by waterbody, species, subdistrict, population and run. Compare two same-species populations on a common time axis, read annual estimates, adult presence and enumeration methods, export the displayed years, or share a view. Nearby comparisons prioritize the same DFO subdistrict. Yorkson Creek links to its mapped channel in Hidden Water.
 
+<!-- coolcode:guide -->
+Select Chilliwack River coho to see which survey years precede the Bench Road repair, then open the provincial crossing records.
+<!-- /coolcode:guide -->
+
+## Chilliwack River and the Bench Road crossing
+
+The Chilliwack River coho preset opens series 46982-62 with DFO’s unspecified historical returns measure. The latest year in the series is shown alongside the provincial crossing’s 2016 completion date. The published years in the current series end before the repair. A basin-wide population estimate and a crossing assessment answer different questions. The project report names cutthroat trout and lists coho among possible beneficiaries. Open [Hidden Water’s project timeline](https://coolcode.ca/hiddenwater/#crossing-1474) to inspect the four crossing records and the original report.
+
 ## Source and coverage
 
 The [NuSEDS catalogue](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6) publishes a simplified all-areas CSV and an English data dictionary. The June 1, 2026 edition contains 421,001 annual records spanning 1920–2025, including BC, Yukon and transboundary waters. The full index includes 9,886 populations and 9,964 distinct population/waterbody series. See the live source panel and [snapshot metadata](snapshot/source.json) for the edition, exact resource, retrieval date, and source SHA-256. The site build date is displayed independently. Contains information licensed under the [Open Government Licence – Canada](https://open.canada.ca/en/open-government-licence-canada).

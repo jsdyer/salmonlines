@@ -17,7 +17,7 @@ SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 def metadata(root=ROOT):
     tool = json.loads((root / "tool.json").read_text(encoding="utf-8"))
     required = {"id", "title", "description", "category", "tags", "icon", "url", "source", "hosting", "access"}
-    if not isinstance(tool, dict) or set(tool) != required:
+    if not isinstance(tool, dict) or not required <= set(tool) <= required | {"data_info"}:
         raise ValueError("tool.json has missing or unknown fields")
     for key in required - {"tags"}:
         if not isinstance(tool[key], str) or not tool[key].strip():

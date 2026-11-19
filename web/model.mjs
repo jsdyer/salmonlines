@@ -5,6 +5,7 @@ export const metrics = [
   {key:'legacy', name:'Unspecified returns', note:'Historical estimates where the age group or accounting basis is uncertain. Use this measure to explore older records without mixing definitions.'},
 ];
 export const presets = {
+  chilliwack:{id:'46982-62',metric:'legacy'},
   adams:{id:'46239-220',metric:'adult'},
   yorkson:{id:'47959-26',metric:'legacy'},
   nathan:{id:'47988-31',metric:'legacy'}

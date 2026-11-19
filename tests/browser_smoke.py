@@ -2,6 +2,7 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import os
 import shutil
 import tempfile
 import threading
@@ -24,7 +25,7 @@ def main():
         threading.Thread(target=server.serve_forever, daemon=True).start()
         try:
             with sync_playwright() as p:
-                browser = p.chromium.launch()
+                browser = p.chromium.launch(executable_path=os.environ.get("CHROMIUM_PATH"))
                 page = browser.new_page(viewport={"width": 1280, "height": 1000})
                 errors = []
                 page.on("pageerror", lambda error: errors.append(str(error)))
@@ -32,6 +33,11 @@ def main():
                 page.locator("#history").wait_for(state="visible")
                 assert "Adams River" in page.locator("#title").inner_text()
                 assert page.locator("#plot circle").count() > 0
+                page.locator('[data-preset="chilliwack"]').click()
+                page.locator("#crossing-note").wait_for(state="visible")
+                assert "before the 2016 repair" in page.locator("#crossing-years").inner_text()
+                assert "#crossing-1474" in page.locator("#crossing-note a").get_attribute("href")
+                assert "series=46982-62" in page.url
                 page.locator('[data-preset="yorkson"]').click()
                 page.wait_for_function("document.querySelector('#title').textContent.includes('Yorkson')")
                 assert page.locator("#metric").input_value() == "legacy"

@@ -126,6 +126,14 @@ function display() {
     for(const val of [row.year,row.item.name,row.value===null?'—':number.format(row.value),row.presence,row.method||'—']) tr.append(elem('td',val));
     return tr;
   }));
+  const showCrossing = selected.id === '46982-62';
+  $('crossing-note').hidden = !showCrossing;
+  if (showCrossing) {
+    const lastYear = Math.max(...active[0].records.keys());
+    $('crossing-years').textContent = lastYear < 2016
+      ? 'The latest published year for this population is ' + lastYear + ', before the 2016 repair.'
+      : 'The latest published year for this population is ' + lastYear + '.';
+  }
   $('water').hidden=selected.water!=='YORKSON CREEK'||selected.area!=='29B';
 }
 async function update() {
