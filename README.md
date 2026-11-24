@@ -36,3 +36,11 @@ The offline build expands the checked-in compressed snapshot. The browser downlo
 `python3 scripts/refresh.py` locates the latest dated all-areas simplified CSV in the government catalogue, checks its digest and validates its schema, identities and historical coverage before replacing the snapshot. A monthly workflow checks for new or corrected source editions. Use **Actions → Browser tool · Check and publish → Run workflow**, on main with the refresh checkbox, for an extra check. Validated refreshes are recorded in Git; the checked and browser-tested build deploys to GitHub Pages. Set repository Pages source to **GitHub Actions**.
 
 For a saved source supplied with `--csv`, use `--retrieved-on YYYY-MM-DD` when the original acquisition date is known. An unchanged local copy preserves the recorded date. A changed local copy with unknown provenance displays “Retrieval date unrecorded.”
+
+<!-- schedule-reliability -->
+## Schedule reliability
+
+Public GitHub repositories can have scheduled workflows disabled after 60 days of inactivity. A separate weekly [schedule guard](.github/workflows/schedule-guard.yml) calls GitHub's enable-workflow API for an explicit list of refresh workflows and itself. It can restore workflows disabled for inactivity, preserves manually disabled workflows, and runs independently of collection failures.
+
+This is an interim mitigation, not a scheduling guarantee: GitHub does not document active-workflow renewal as a permanent exemption, and scheduled runs can be delayed or dropped. A scheduler on our own Linux server is the planned independent trigger. The guard does not collect data, create dummy commits, or change source/check timestamps; successful collection and published data freshness still need monitoring.
+<!-- /schedule-reliability -->
