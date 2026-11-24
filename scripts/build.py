@@ -10,6 +10,8 @@ import shutil
 import tempfile
 from urllib.parse import urlsplit
 
+from search_metadata import add_search_metadata
+
 ROOT = Path(__file__).resolve().parents[1]
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 
@@ -32,6 +34,24 @@ def metadata(root=ROOT):
     if source.scheme != "https" or not source.hostname or source.username is not None or any(c.isspace() for c in tool["source"]) or "\\" in tool["source"]:
         raise ValueError("source must be an HTTPS URL without credentials or whitespace")
     return tool
+
+
+def dataset_metadata(source, tool):
+    url = "https://coolcode.ca" + tool["url"]
+    return {
+        "@type": "Dataset", "@id": url + "#dataset", "url": url,
+        "name": "Pacific salmon escapement records from DFO NuSEDS",
+        "description": f"{source['rows']:,} annual survey records for Pacific salmon populations, with coverage from {source['years'][0]} to {source['years'][1]}. Includes adult spawner and total return estimates, missing values, presence flags and survey methods.",
+        "creator": {"@type": "Organization", "name": "Fisheries and Oceans Canada"},
+        "publisher": {"@type": "Organization", "name": "CoolCode", "url": "https://coolcode.ca/"},
+        "isBasedOn": "https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6",
+        "license": "https://open.canada.ca/en/open-government-licence-canada",
+        "spatialCoverage": "DFO Pacific Region, Canada",
+        "temporalCoverage": f"{source['years'][0]}/{source['years'][1]}",
+        "dateModified": source["edition"],
+        "distribution": [{"@type": "DataDownload", "name": "NuSEDS source CSV",
+                          "contentUrl": source["url"], "encodingFormat": "text/csv"}],
+    }
 
 
 def build(root=ROOT):
@@ -69,6 +89,14 @@ def build(root=ROOT):
             page = page.replace(placeholder, escape(tool[key], quote=True))
         if re.search(r"\{\{[A-Z_]+\}\}", page):
             raise ValueError("Unresolved template placeholder in web/index.html")
+        dataset = dataset_metadata(source, tool)
+        summary = (f'<section id="dataset"><h2>Dataset snapshot</h2><p>{escape(dataset["description"])}</p>'
+                   f'<p>Source edition: {escape(source["edition"])}. Retrieved: {escape(source["retrieved"])}. '
+                   'A new retrieval does not mean the source edition changed.</p>'
+                   f'<p><a href="{escape(source["url"], quote=True)}">Download the DFO NuSEDS source CSV</a> · '
+                   '<a href="./data/source.json">Read the snapshot provenance and checksum</a></p></section>')
+        page = page.replace("<!-- DATASET_SUMMARY -->", summary)
+        page = add_search_metadata(page, tool, category="ReferenceApplication", datasets=[dataset])
         index.write_text(page, encoding="utf-8")
         (stage / ".nojekyll").touch()
         if output.exists():

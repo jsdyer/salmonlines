@@ -5,10 +5,17 @@ import sys
 import tempfile
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from build import ROOT, build, metadata
+from build import ROOT, build, metadata, dataset_metadata
 
 
 class BuildTests(unittest.TestCase):
+    def test_dataset_date_is_source_edition_not_retrieval_or_rebuild(self):
+        source = json.loads((ROOT / "snapshot/source.json").read_text())
+        source.update(edition="2020-06-01", retrieved="2026-11-24", build_date="2027-01-01")
+        dataset = dataset_metadata(source, {"url": "/salmonlines/"})
+        self.assertEqual(dataset["dateModified"], "2020-06-01")
+        self.assertEqual(dataset["distribution"][0]["contentUrl"], source["url"])
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
