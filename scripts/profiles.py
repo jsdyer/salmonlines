@@ -129,8 +129,8 @@ def profile_body(item, rows, series, pos, source, app, siblings):
         local_links.append(link("/hiddenwater/#crossing-1474", "Bench Road fish-passage repair in the Chilliwack watershed")
                            + " — the provincial record describes a specific crossing." + note)
     if water == "YORKSON CREEK" and area == "29B":
-        local_links.append(link("/hiddenwater/#record=channels%3A9c7edd00-c189-44a7-a478-6b6c93f79ddf",
-                                "Mapped Yorkson Creek channel in Hidden Water"))
+        local_links.append(link("/hiddenwater/#waterway=Yorkson+Creek",
+                                "Explore mapped Yorkson Creek reaches in Hidden Water"))
     if local_links:
         body += '<h2>Watershed records</h2><ul>' + ''.join('<li>' + x + '</li>' for x in local_links) + '</ul>'
     related = [x for x in siblings if x[0] != identity]

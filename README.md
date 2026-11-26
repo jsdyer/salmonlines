@@ -2,7 +2,7 @@
 
 [Open Salmon Lines](https://coolcode.ca/salmonlines/) · [CoolCode](https://coolcode.ca/)
 
-Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by waterbody, species, subdistrict, population and run. Compare two same-species populations on a common time axis, read annual estimates, adult presence and enumeration methods, export the displayed years, or share a view. Nearby comparisons prioritize the same DFO subdistrict. Yorkson Creek links to its mapped channel in Hidden Water.
+Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by waterbody, species, subdistrict, population and run. Compare two same-species populations on a common time axis, read annual estimates, adult presence and enumeration methods, export the displayed years, or share a view. Nearby comparisons prioritize the same DFO subdistrict. The Yorkson Creek profile and explorer open [mapped Yorkson Creek reaches in Hidden Water](https://coolcode.ca/hiddenwater/#waterway=Yorkson+Creek). The link selects matching municipal channel records by waterway name across source editions.
 
 <!-- coolcode:guide -->
 Read the latest and preceding estimates for one river, population and measure. For Chilliwack River coho, compare the survey years with the Bench Road repair timeline.

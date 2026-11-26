@@ -45,6 +45,14 @@ def main():
                 page.wait_for_function("document.querySelector('#title').textContent.includes('Yorkson')")
                 assert page.locator("#metric").input_value() == "legacy"
                 assert page.locator("#water").is_visible()
+                waterway = "https://coolcode.ca/hiddenwater/#waterway=Yorkson+Creek"
+                assert page.locator("#water").get_attribute("href") == waterway
+                assert "reaches" in page.locator("#water").inner_text()
+                profile = browser.new_page()
+                profile.goto(page.locator("#profile-url").evaluate("a => a.href"))
+                mapped = profile.get_by_role("link", name="Explore mapped Yorkson Creek reaches in Hidden Water")
+                assert mapped.get_attribute("href") == "/hiddenwater/#waterway=Yorkson+Creek"
+                profile.close()
                 page.locator("#compare-panel summary").click()
                 page.locator("#compare-search").fill("Nathan Creek")
                 page.locator("#compare").select_option("47988-31")
