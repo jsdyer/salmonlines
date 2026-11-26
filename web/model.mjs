@@ -11,8 +11,8 @@ export const presets = {
   nathan:{id:'47988-31',metric:'legacy'}
 };
 export function unpack(row) {
-  const [id,name,water,species,area,run]=row;
-  return {id,name,water,species,area,run,search:[name,water,id,area].join(' ').toLocaleLowerCase()};
+  const [id,name,water,species,area,run,hasProfile=false]=row;
+  return {id,name,water,species,area,run,hasProfile,search:[name,water,id,area].join(' ').toLocaleLowerCase()};
 }
 export function matching(items, query, species='', area='') {
   const words=query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);

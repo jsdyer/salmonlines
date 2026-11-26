@@ -8,6 +8,8 @@ Explore Fisheries and Oceans Canada’s Pacific salmon spawning records by water
 Read the latest and preceding estimates for one river, population and measure. For Chilliwack River coho, compare the survey years with the Bench Road repair timeline.
 <!-- /coolcode:guide -->
 
+[Browse population profiles by species](https://coolcode.ca/salmonlines/series/) for population and waterbody pairs with numerical estimates in at least ten distinct analysis years on one DFO measure. Each profile shows the latest two qualifying estimates, dated survey rows, presence, recorded enumeration methods and links to the individual measures in the explorer. The headline uses the qualifying measure with the most recent estimate. Ties favour the narrower measure in explorer order. The build generates the profiles, directory and child sitemap from the checked-in edition.
+
 The river reading updates with the selected populations, measure and years. For example, the June 2026 source edition puts the Adams River sockeye natural adult estimate at 354 in 2024 and 4,851 in 2023. Its total natural spawner estimate for 2024 is 1,373, which also includes jacks. A difference between seasons describes estimated abundance under one measure; assessing causes or population health requires more evidence.
 
 ## Chilliwack River and the Bench Road crossing

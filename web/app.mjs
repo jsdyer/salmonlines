@@ -58,7 +58,7 @@ function choose(id, second='', metric) {
   $('compare-search').value='';
   comparisonOptions();
   filterList();
-  update();
+  return update();
 }
 function urlForView() {
   const params=new URLSearchParams({series:selected.id,measure:$('metric').value,period:$('period').value});
@@ -115,6 +115,9 @@ function display() {
   $('location').textContent=selected.water+' · '+selected.species;
   $('title').textContent=selected.name;
   $('identity').textContent='Population '+selected.id.split('-')[0]+' · Waterbody '+selected.id.split('-')[1]+' · DFO subdistrict '+(selected.area||'unknown')+(selected.run?' · Run '+selected.run:'');
+  $('profile-link').hidden=!selected.hasProfile;
+  if(selected.hasProfile) $('profile-url').href='./series/'+selected.id+'/';
+  else $('profile-url').removeAttribute('href');
   $('definition').textContent=metrics[pos-1].note;
   $('legend').replaceChildren(...active.map(({item},i)=>{const n=elem('span',item.name);n.className='key'+(i?' second':'');return n;}));
   $('river-reading').replaceChildren(...active.map(({item,records}) => {
@@ -195,6 +198,10 @@ async function start() {
   $('raw').href=source.url;$('raw').hidden=false;
   $('provenance').textContent=number.format(source.rows)+' annual records across '+number.format(source.populations)+' DFO populations in the all-areas Pacific release, including BC, Yukon and transboundary waters. Analysis years '+source.years.join('–')+'. DFO edition '+source.edition+' · '+(source.retrieved ? 'Snapshot retrieved '+source.retrieved : 'Retrieval date unrecorded')+' · Site built '+source.build_date+'.';
   if(['25','10'].includes(view.get('period'))) $('period').value=view.get('period');
-  choose(view.get('series')||presets.adams.id,view.get('compare'),view.get('measure')||'adult');
+  await choose(view.get('series')||presets.adams.id,view.get('compare'),view.get('measure')||'adult');
+  if(view.get('series')===selected.id && !$('history').hidden && matchMedia('(max-width:760px)').matches) {
+    $('title').focus({preventScroll:true});
+    $('title').scrollIntoView({block:'start'});
+  }
 }
 start().catch(()=>{$('status').textContent='The population index could not load. Reload to retry or download the original data from DFO below.';});

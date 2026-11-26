@@ -2,6 +2,7 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 import os
 import shutil
 import tempfile
@@ -64,6 +65,21 @@ def main():
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
                 page.screenshot(path=str(screenshots / "mobile.png"), full_page=True)
+                root = f"http://127.0.0.1:{server.server_port}/salmonlines/"
+                page.goto(root + "series/")
+                page.get_by_role("link", name="Coho ·", exact=False).click()
+                page.get_by_role("link", name="Chilliwack River (Chilliwack) Coho · 46982-62").click()
+                assert "Chilliwack River" in page.locator(".profile-intro").inner_text()
+                assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+                series_link = page.locator('a[href*="#series=46982-62"]').first
+                measure = parse_qs(urlsplit(series_link.get_attribute("href")).fragment)["measure"][0]
+                series_link.click()
+                page.locator("#history").wait_for(state="visible")
+                assert page.locator("#metric").input_value() == measure
+                assert "46982-62" in page.url and "Chilliwack" in page.locator("#title").inner_text()
+                assert page.locator("#title").bounding_box()["y"] < 350
+                page.locator("#profile-url").click()
+                assert page.url == root + "series/46982-62/"
                 assert not errors, errors
                 browser.close()
             print("Browser checks passed: river search, chart, comparison, deep link, export and mobile layout")

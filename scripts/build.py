@@ -11,6 +11,7 @@ import tempfile
 from urllib.parse import urlsplit
 
 from search_metadata import add_search_metadata
+from profiles import publish_profiles
 
 ROOT = Path(__file__).resolve().parents[1]
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
@@ -80,6 +81,7 @@ def build(root=ROOT):
         for name in files:
             with gzip.open(snapshot / (name + ".gz"), "rb") as packed, (data / name).open("wb") as unpacked:
                 shutil.copyfileobj(packed, unpacked)
+        publish_profiles(stage, tool, source)
         index = stage / "index.html"
         page = index.read_text(encoding="utf-8")
         for token, key in {"TITLE": "title", "DESCRIPTION": "description", "TOOL_ID": "id", "SOURCE_URL": "source"}.items():
@@ -90,8 +92,9 @@ def build(root=ROOT):
         if re.search(r"\{\{[A-Z_]+\}\}", page):
             raise ValueError("Unresolved template placeholder in web/index.html")
         dataset = dataset_metadata(source, tool)
+        retrieval = f'Retrieved {escape(source["retrieved"])}.' if source.get("retrieved") else "Retrieval date unrecorded."
         summary = (f'<section id="dataset"><h2>Dataset snapshot</h2><p>{escape(dataset["description"])}</p>'
-                   f'<p>Source edition: {escape(source["edition"])}. Retrieved: {escape(source["retrieved"])}. '
+                   f'<p>Source edition {escape(source["edition"])}. {retrieval} '
                    'A new retrieval does not mean the source edition changed.</p>'
                    f'<p><a href="{escape(source["url"], quote=True)}">Download the DFO NuSEDS source CSV</a> · '
                    '<a href="./data/source.json">Read the snapshot provenance and checksum</a></p></section>')

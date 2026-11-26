@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script><script defer src="/assets/tool-metrics.js" referrerpolicy="no-referrer"></script>
 </head>
 <body data-tool-id="{{TOOL_ID}}"><a class="skip" href="#main">Skip to explorer</a>
-<header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="#sources">Data &amp; methods ↓</a></header>
+<header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="./series/">Browse population profiles</a><a href="#sources">Data &amp; methods ↓</a></header>
 <div class="mast"><div><p class="kicker">DFO Pacific Region · NuSEDS</p><h1>{{TITLE}}</h1>
 <p>How many salmon came back to spawn? Explore DFO’s estimates for a particular river, population and spawning season.</p></div>
 <div class="emblem" aria-hidden="true">≋</div></div>
@@ -18,7 +18,7 @@
 <label for="area">DFO subdistrict</label><select id="area"><option value="">All subdistricts</option></select>
 <p id="matches" role="status"></p><div id="results" aria-label="Matching populations"></div></aside>
 <section class="view"><p id="status" role="status">Loading the DFO population index…</p>
-<div id="history" hidden><p class="kicker" id="location"></p><h2 id="title"></h2><p class="meta" id="identity"></p>
+<div id="history" hidden><p class="kicker" id="location"></p><h2 id="title" tabindex="-1"></h2><p class="meta" id="identity"></p><p id="profile-link" hidden><a id="profile-url">Read this population’s published profile</a></p>
 <div class="controls"><label>Measure<select id="metric"></select></label><label>Year range<select id="period"><option value="all">Entire record</option><option value="25">Latest 25 source years</option><option value="10">Latest 10 source years</option></select></label></div>
 <p id="definition" class="measure-note"></p>
 <details id="compare-panel"><summary>Compare another population</summary><label for="compare-search">Search populations of the same species</label><input id="compare-search" type="search" placeholder="Type a river name or ID"><label for="compare">Comparison population</label><select id="compare"></select><p class="meta" id="compare-count"></p></details>
