@@ -124,6 +124,9 @@ def profile_body(item, rows, series, pos, source, app, siblings):
              + link(source["url"], "Original DFO all-areas CSV") + ' · '
              + link(LICENCE, "Open Government Licence – Canada") + '</p>')
     local_links = []
+    if identity in ("46239-220", "46238-220"):
+        local_links.append(link("/field-notes/reading-the-adams-river-sockeye-run/",
+                                "How many sockeye returned to the Adams River?"))
     if identity == "46982-62":
         note = (" The DFO series ends before the 2016 repair." if rows[-1][0] < 2016 else "")
         local_links.append(link("/hiddenwater/#crossing-1474", "Bench Road fish-passage repair in the Chilliwack watershed")
